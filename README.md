@@ -59,7 +59,7 @@ sudo apt-get install git
 Clone this repository in your Pi's `ovos` home directory.
 
 ```bash
-git clone https://github.com/jaredcobb/ovos-installation-scripts.git ~
+git clone https://github.com/jaredcobb/ovos-installation-scripts.git ~/ovos-installation-scripts
 ```
 
 ### Setup Your Azure & Google API Keys
