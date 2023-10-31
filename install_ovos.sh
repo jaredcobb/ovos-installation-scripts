@@ -61,7 +61,7 @@ install_core() {
         git+https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-lite \
         git+https://github.com/OpenVoiceOS/ovos-stt-plugin-vosk \
         git+https://github.com/OpenVoiceOS/ovos-ww-plugin-pocketsphinx \
-        git+https://github.com/OpenVoiceOS/ovos-workshop \
+        git+https://github.com/jaredcobb/ovos-workshop \
         git+https://github.com/OpenVoiceOS/ovos-lingua-franca \
         git+https://github.com/OpenVoiceOS/ovos-microphone-plugin-alsa \
         git+https://github.com/OpenVoiceOS/ovos-stt-plugin-server \
