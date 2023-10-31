@@ -83,7 +83,7 @@ install_core() {
         git+https://github.com/OpenVoiceOS/ovos-phal-plugin-alsa \
         git+https://github.com/OpenVoiceOS/skill-ovos-volume \
         git+https://github.com/OpenVoiceOS/skill-ovos-stop \
-        git+https://github.com/OpenVoiceOS/skill-ovos-date-time \
+        git+https://github.com/OpenVoiceOS/skill-ovos-date-time
 
     echo_info "Copying config files..."
     echo
