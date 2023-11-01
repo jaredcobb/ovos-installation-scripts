@@ -104,7 +104,7 @@ install_core() {
     fi
 
     if [ -f "$SCRIPT_DIR/keys/google.json" ]; then
-        cp $SCRIPT_DIR/keys/google.json $HOME
+        cp $SCRIPT_DIR/keys/google.json $HOME/google.json
     else
         echo_warning "google.json does not exist in $SCRIPT_DIR/keys/"
         echo_warning "You will need to manually add your Google service account key to $HOME"
