@@ -39,7 +39,7 @@ install_core() {
 
     echo_info "Installing neural network requirements..."
     echo
-    pip3 install padatious fann2==1.0.7
+    pip3 install padatious fann2==1.0.7 onnxruntime
 
     # Wake word and STT requirements
     pip3 install tflite_runtime
@@ -51,39 +51,39 @@ install_core() {
     echo_info "Installing OVOS core, plugins, and required skills..."
     echo
     # install ovos-core
-    pip3 install git+https://github.com/OpenVoiceOS/ovos-backend-client \
-        git+https://github.com/OpenVoiceOS/ovos-core \
-        git+https://github.com/OpenVoiceOS/ovos-audio \
-        git+https://github.com/OpenVoiceOS/ovos-ocp-audio-plugin \
-        git+https://github.com/OpenVoiceOS/ovos-messagebus \
-        git+https://github.com/OpenVoiceOS/ovos-dinkum-listener \
-        git+https://github.com/OpenVoiceOS/ovos-vad-plugin-silero \
-        git+https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-lite \
-        git+https://github.com/OpenVoiceOS/ovos-stt-plugin-vosk \
-        git+https://github.com/OpenVoiceOS/ovos-ww-plugin-pocketsphinx \
-        git+https://github.com/OpenVoiceOS/ovos-workshop \
-        git+https://github.com/OpenVoiceOS/ovos-lingua-franca \
-        git+https://github.com/OpenVoiceOS/ovos-microphone-plugin-alsa \
-        git+https://github.com/OpenVoiceOS/ovos-stt-plugin-server \
-        git+https://github.com/OpenVoiceOS/ovos-tts-plugin-azure \
-        git+https://github.com/OpenVoiceOS/ovos-tts-plugin-mimic3-server \
-        git+https://github.com/OpenVoiceOS/ovos-tts-plugin-mimic \
-        git+https://github.com/OpenVoiceOS/ovos-tts-plugin-piper \
-        git+https://github.com/OpenVoiceOS/ovos-tts-server-plugin \
-        git+https://github.com/OpenVoiceOS/ovos-config \
-        git+https://github.com/OpenVoiceOS/ovos-utils \
-        git+https://github.com/OpenVoiceOS/ovos-bus-client \
-        git+https://github.com/OpenVoiceOS/ovos-plugin-manager \
-        git+https://github.com/OpenVoiceOS/ovos-cli-client \
-        git+https://github.com/OpenVoiceOS/ovos-PHAL \
-        git+https://github.com/OpenVoiceOS/ovos-phal-plugin-connectivity-events \
-        git+https://github.com/OpenVoiceOS/ovos-phal-plugin-system \
-        git+https://github.com/OpenVoiceOS/ovos-PHAL-plugin-ipgeo \
-        git+https://github.com/OpenVoiceOS/ovos-PHAL-plugin-oauth \
-        git+https://github.com/OpenVoiceOS/ovos-phal-plugin-alsa \
-        git+https://github.com/OpenVoiceOS/skill-ovos-volume \
-        git+https://github.com/OpenVoiceOS/skill-ovos-stop \
-        git+https://github.com/OpenVoiceOS/skill-ovos-date-time
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-backend-client
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-core
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-audio
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-ocp-audio-plugin
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-messagebus
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-dinkum-listener
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-vad-plugin-silero
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-ww-plugin-precise-lite
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-stt-plugin-vosk
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-ww-plugin-pocketsphinx
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-workshop
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-lingua-franca
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-microphone-plugin-alsa
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-stt-plugin-server
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-tts-plugin-azure
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-tts-plugin-mimic3-server
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-tts-plugin-mimic
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-tts-plugin-piper
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-tts-server-plugin
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-config
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-utils
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-bus-client
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-plugin-manager
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-cli-client
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-PHAL
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-phal-plugin-connectivity-events
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-phal-plugin-system
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-PHAL-plugin-ipgeo
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-PHAL-plugin-oauth
+    pip3 install git+https://github.com/OpenVoiceOS/ovos-phal-plugin-alsa
+    pip3 install git+https://github.com/OpenVoiceOS/skill-ovos-volume
+    pip3 install git+https://github.com/OpenVoiceOS/skill-ovos-stop
+    pip3 install git+https://github.com/OpenVoiceOS/skill-ovos-date-time
 
     echo_info "Copying config files..."
     echo
@@ -256,7 +256,7 @@ if [[ -z "$install" || $install == Y* || $install == y* ]]; then
         mkdir -p $HOME/.local/bin
     fi
     PATH=$HOME/.local/bin:$PATH
-    
+
     install_core
 
     if [[ $systemd == "YES" ]]; then
