@@ -8,7 +8,6 @@ Notable differences between these build scripts and the official build:
 - Uses the official [NeonAI Google Streaming STT Plugin](https://github.com/NeonGeckoCom/neon-stt-plugin-google_cloud_streaming)
 - Uses the official [OVOS Azure TTS Plugin](https://github.com/OpenVoiceOS/ovos-tts-plugin-azure)
 - Uses LCARS computer audio files for the default [OVOS Audio](https://github.com/OpenVoiceOS/ovos-audio) system event sounds.
-- Removes most skills (which can be added later), notably the default fallback-unknown skill as the intention is to use my [OpenAI fallback skill](https://github.com/jaredcobb/ovos-skill-openai).
 
 If you are new to OpenVoiceOS you probably want to run the official image. You can follow the [official guide](https://openvoiceos.github.io/community-docs/) for more details.
 
@@ -16,14 +15,11 @@ If you are interested in building your own custom image, my repository may be a 
 
 ## Overview
 
-- `init.sh`: Initializes the system by updating, upgrading, and installing dependencies.
-- `install_ovos.sh`: Installs OVOS core, sets up systemd services, and optionally installs extra skills.
+- `init.sh`: Initializes the system by updating, upgrading, and installing dependencies. Then it launches the official [OVOS Installer](https://github.com/OpenVoiceOS/ovos-installer).
+- `configure_ovos.sh`: Installs & configures plugins, adds skills, configures OVOS core.
 - `/configs`: Configuration files used in initialization and setup.
 - `/keys`: Place your `azure.txt` and `google.json` API keys here.
-- `/hooks`: Bash hook files for systemd services.
-- `/services`: Systemd service files.
 - `/files`: Audio files for OVOS interactions.
-- `/admin`: Administrative scripts for OVOS.
 
 ## Prerequisites
 
@@ -48,10 +44,10 @@ Ensure that you have a fresh installation of Raspberry Pi OS on your Raspberry P
 
 You may now continue to install OVOS directly on the Pi or via SSH. The remaining steps are to be performed on the Pi.
 
-### Install Git
+### Launch the Initialization Script
 
 ```bash
-sudo apt-get install git
+sh -c "curl -s https://raw.githubusercontent.com/jaredcobb/ovos-installation-scripts/main/init.sh -o init.sh && chmod +x init.sh && sudo ./init.sh && rm init.sh"
 ```
 
 ### Download Repository
@@ -87,28 +83,12 @@ By default, the `/home/ovos/ovos-installation-scripts/configs/mycroft.conf` file
 
 You can also change the voice in `mycroft.conf` if you prefer.
 
-### Install OVOS
+### Configure OVOS
 
-#### Install Prerequisites
-
-```bash
-~/ovos-installation-scripts/init.sh
-```
-
-Reboot.
-
-#### Test Audio
-
-Now is a good time to test your audio before moving forward. From `/home/ovos/ovos-installation-scripts/` run
+#### Launch Configuration Script
 
 ```bash
-aplay ~/ovos-installation-scripts/test.wav
-```
-
-#### Install OVOS Core, Plugins, and Skills
-
-```bash
-~/ovos-installation-scripts/install_ovos.sh
+sh -c "curl -s https://raw.githubusercontent.com/jaredcobb/ovos-installation-scripts/main/configure_ovos.sh -o configure_ovos.sh && chmod +x configure_ovos.sh && sudo ./configure_ovos.sh && rm configure_ovos.sh"
 ```
 
 Reboot.

@@ -16,30 +16,9 @@ prompt_bright() {
     echo -e "\033[33m$1\033[0m"
 }
 
-install_core() {
-    echo_info "Installing OVOS core"
+configure_core() {
+    echo_info "Configuring OVOS core"
     echo
-
-    echo_info "Setting up venv..."
-    echo
-    : ${OVOS_VENV:=$HOME/venv-ovos}
-    python3 -mvenv $OVOS_VENV
-    $OVOS_VENV/bin/pip3 install --upgrade setuptools wheel pip
-    BINDIR=$OVOS_VENV/bin
-
-    if [[ ! -d ${BINDIR} ]]; then
-        mkdir -p ${BINDIR}
-    fi
-
-    # Ensure PATH includes BINDIR without duplicating it
-    if [[ ! ":$PATH:" == *":${BINDIR}:"* ]]; then
-        echo "export PATH=${BINDIR}:$PATH" >> ~/.bashrc
-        export PATH=${BINDIR}:$PATH
-    fi
-
-    echo_info "Installing neural network requirements..."
-    echo
-    pip3 install padatious fann2==1.0.7 onnxruntime
 
     # Wake word and STT requirements
     pip3 install tflite_runtime
@@ -137,72 +116,17 @@ install_core() {
     echo_info "Done installing OVOS core!"
 }
 
-install_systemd() {
-    echo
-    echo_info "Installing systemd files..."
-    echo
-
-    # install the hook files
-    cp $SCRIPT_DIR/hooks/* $BINDIR/
-    chmod +x $BINDIR/ovos-systemd*
-    sudo -S cp $SCRIPT_DIR/admin/ovos-systemd-admin-phal /usr/libexec
-    sudo -S chmod +x /usr/libexec/ovos-systemd-admin-phal
-
-    # sdnotify is required
-    pip3 install sdnotify
-
-    # install the service files
-    if [[ ! -d $HOME/.config/systemd/user ]]; then
-        mkdir -p $HOME/.config/systemd/user
-    fi
-    cp $SCRIPT_DIR/services/* $HOME/.config/systemd/user/
-    sudo -S cp $SCRIPT_DIR/admin/ovos-admin-phal.service /etc/systemd/system/
-
-    for f in $HOME/.config/systemd/user/*.service ; do
-        if [[ $(basename $f) != "ovos.service" ]]; then
-            sed -i s,/usr/libexec,${BINDIR},g $f
-            sed -i "s,ExecStart=,ExecStart=${OVOS_VENV}/bin/python3 ," $f
-        fi
-    done
-
-    sudo -S sed -i "s,ExecStart=,ExecStart=${OVOS_VENV}/bin/python3 ," /etc/systemd/system/ovos-admin-phal.service
-
-    if [[ $enabled == "YES" ]]; then
-        echo
-        echo_info "Enabling service files..."
-        echo
-
-        sudo -S loginctl enable-linger $USER
-
-        systemctl --user enable ovos
-        systemctl --user enable ovos-messagebus
-        systemctl --user enable ovos-dinkum-listener
-        systemctl --user enable ovos-audio
-        systemctl --user enable ovos-skills
-        systemctl --user enable ovos-phal
-        sudo -S systemctl enable ovos-admin-phal
-        systemctl --user daemon-reload
-        sudo -S systemctl daemon-reload
-    fi
-
-    cd $SCRIPT_DIR
-    echo
-    echo_info "Done installing systemd files!"
-    echo
-}
-
 install_extra_skills() {
     echo
     echo_info "Installing extra skills..."
     echo
-
-    pip3 install git+https://github.com/OpenVoiceOS/skill-ovos-weather
 
     # Here is where to include your local skills
     if [[ ! -d $HOME/.local/share/mycroft/skills ]]; then
         mkdir -p $HOME/.local/share/mycroft/skills
     fi
 
+    pip3 install git+https://github.com/OpenVoiceOS/skill-ovos-weather
     pip3 install git+https://github.com/jaredcobb/ovos-skill-openai
 
     echo
@@ -213,8 +137,8 @@ install_extra_skills() {
 ############################################################################################
 echo
 echo_bright "=============================================================================="
-echo_bright "This script will install OpenVoiceOS on your system."
-echo_bright "It will use the latest development versions of OVOS core, plugins, and skills."
+echo_bright "This script will configure OpenVoiceOS on your system."
+echo_bright "It will use the latest development versions of OVOS plugins, and skills."
 echo_bright "This script may fail to install if the latest development builds are unstable."
 echo_bright "You may want to adjust the release versions of various packages and lock them."
 echo_bright "=============================================================================="
@@ -224,19 +148,6 @@ echo
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-prompt_bright "Do you want to install systemd files? (Y/n): "
-read systemd
-if [[ -z "$systemd" || $systemd == y* || $systemd == Y* ]]; then
-    systemd="YES"
-    echo
-    prompt_bright "Do you want to automatically start the ovos services? (Y/n): "
-    read enabled
-    if [[ -z "$enabled" || $enabled == y* || $enabled == Y* ]]; then
-        enabled="YES"
-    fi
-fi
-echo
-
 prompt_bright "Do you want to install extra skills? (Y/n): "
 read extra_skills
 if [[ -z "$extra_skills" || $extra_skills == y* || $extra_skills == Y* ]]; then
@@ -244,30 +155,21 @@ if [[ -z "$extra_skills" || $extra_skills == y* || $extra_skills == Y* ]]; then
 fi
 echo
 
-echo_bright "We are now ready to install OVOS"
+echo_bright "We are now ready to configure OVOS"
 echo
 echo
 
 prompt_bright "Do you want to continue? (Y/n): "
-read install
+read configure
 
-if [[ -z "$install" || $install == Y* || $install == y* ]]; then
-    if [[ ! -d $HOME/.local/bin ]]; then
-        mkdir -p $HOME/.local/bin
-    fi
-    PATH=$HOME/.local/bin:$PATH
-
-    install_core
-
-    if [[ $systemd == "YES" ]]; then
-        install_systemd
-    fi
+if [[ -z "$configure" || $configure == Y* || $configure == y* ]]; then
+    configure_core
 
     if [[ $extra_skills == "YES" ]]; then
         install_extra_skills
     fi
 
-    echo_info "Done installing OVOS"
+    echo_info "Done configuring OVOS"
     echo
 
     echo_bright "It's recommended to restart your system before running OVOS."
