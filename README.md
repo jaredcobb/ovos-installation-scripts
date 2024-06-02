@@ -50,6 +50,16 @@ You may now continue to install OVOS directly on the Pi or via SSH. The remainin
 sh -c "curl -s https://raw.githubusercontent.com/jaredcobb/ovos-installation-scripts/main/init.sh -o init.sh && chmod +x init.sh && sudo ./init.sh && rm init.sh"
 ```
 
+Reboot.
+
+### Launch the Installer Script
+
+```bash
+sh -c "curl -s https://raw.githubusercontent.com/OpenVoiceOS/ovos-installer/main/installer.sh -o installer.sh && chmod +x installer.sh && sudo ./installer.sh && rm installer.sh"
+```
+
+Reboot.
+
 ### Download Repository
 
 Clone this repository in your Pi's `ovos` home directory.
@@ -88,7 +98,7 @@ You can also change the voice in `mycroft.conf` if you prefer.
 #### Launch Configuration Script
 
 ```bash
-sh -c "curl -s https://raw.githubusercontent.com/jaredcobb/ovos-installation-scripts/main/configure_ovos.sh -o configure_ovos.sh && chmod +x configure_ovos.sh && sudo ./configure_ovos.sh && rm configure_ovos.sh"
+./ovos-installation-scripts/config.sh"
 ```
 
 Reboot.
