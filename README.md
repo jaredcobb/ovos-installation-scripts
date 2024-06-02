@@ -98,7 +98,7 @@ You can also change the voice in `mycroft.conf` if you prefer.
 #### Launch Configuration Script
 
 ```bash
-./ovos-installation-scripts/config.sh"
+~/ovos-installation-scripts/config.sh
 ```
 
 Reboot.

@@ -114,6 +114,22 @@ echo
 
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+VENV_PATH="$HOME/.venvs/ovos"
+if [ -d "$VENV_PATH" ]; then
+  echo_info "Virtual environment found at $VENV_PATH"
+  echo
+  source "$VENV_PATH/bin/activate"
+  if [ $? -eq 0 ]; then
+    echo_info "Virtual environment activated."
+    echo
+  else
+    echo_warning "Failed to activate the virtual environment."
+    exit 1
+  fi
+else
+  echo_warning "Virtual environment not found at $VENV_PATH"
+  exit 1
+fi
 
 prompt_bright "Do you want to install extra skills? (Y/n): "
 read extra_skills
