@@ -17,7 +17,7 @@ prompt_bright() {
 }
 
 configure_core() {
-    echo_info "Configuring OVOS core"
+    echo_info "Configuring OVOS core..."
     echo
 
     # STT requirements
@@ -83,7 +83,7 @@ configure_core() {
     crontab tempcron
     rm tempcron
 
-    echo_info "Done installing OVOS core!"
+    echo_info "Done configuring OVOS core!"
 }
 
 install_extra_skills() {
@@ -108,7 +108,7 @@ install_extra_skills() {
 echo
 echo_bright "=============================================================================="
 echo_bright "This script will configure OpenVoiceOS on your system."
-echo_bright "It will use the latest development versions of OVOS plugins, and skills."
+echo_bright "It will use the latest development versions of OVOS plugins and skills."
 echo_bright "This script may fail to install if the latest development builds are unstable."
 echo_bright "You may want to adjust the release versions of various packages and lock them."
 echo_bright "=============================================================================="
@@ -141,7 +141,7 @@ if [[ -z "$extra_skills" || $extra_skills == y* || $extra_skills == Y* ]]; then
 fi
 echo
 
-echo_bright "We are now ready to configure OVOS"
+echo_bright "We are now ready to configure OVOS..."
 echo
 echo
 
@@ -155,7 +155,7 @@ if [[ -z "$configure" || $configure == Y* || $configure == y* ]]; then
         install_extra_skills
     fi
 
-    echo_info "Done configuring OVOS"
+    echo_info "Done configuring OVOS!"
     echo
 
     echo_bright "It's recommended to restart your system before running OVOS."
