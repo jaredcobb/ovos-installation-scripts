@@ -8,13 +8,10 @@ sudo wget -O /etc/motd https://gist.githubusercontent.com/jaredcobb/304281217b15
 echo "alias l='ls -la'" >> ~/.bashrc
 echo "alias ll='ls -la'" >> ~/.bashrc
 echo "alias ovos-restart='systemctl --user restart ovos'" >> ~/.bashrc
+echo "export PATH=\$PATH:/home/ovos/.local/bin" >> ~/.bashrc
 
 echo "Done initializing the server..."
 echo
-#echo "Launching OVOS Installer..."
-#echo
-#
-#sh -c "curl -s https://raw.githubusercontent.com/OpenVoiceOS/ovos-installer/main/installer.sh -o installer.sh && chmod +x installer.sh && sudo ./installer.sh && rm installer.sh"
 
 read -p "Would you like to restart now? [Y/n]: " restart
 if [[ -z "$restart" || $restart == y* || $restart == Y* ]]; then

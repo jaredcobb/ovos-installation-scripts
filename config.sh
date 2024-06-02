@@ -74,6 +74,9 @@ configure_core() {
     ln -sfn "$HOME/.config/files/start_listening/start_listening1.mp3" "$HOME/.config/files/start_listening.mp3"
     ln -sfn "$HOME/.config/files/end_listening/end_listening1.mp3" "$HOME/.config/files/end_listening.mp3"
 
+    if [[ ! -d $HOME/.local/bin ]]; then
+        mkdir -p $HOME/.local/bin
+    fi
     cp $SCRIPT_DIR/configs/random.sounds.sh $HOME/.local/bin/
     crontab -l 2>/dev/null > tempcron
     echo "*/3 * * * * $HOME/.local/bin/random.sounds.sh" >> tempcron
